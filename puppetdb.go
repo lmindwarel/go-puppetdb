@@ -267,12 +267,12 @@ func (c *Client) Get(v interface{}, path string, params map[string]string) error
 	pathAndParams := path
 	//TODO: Improve this
 	if params != nil && len(params) > 0 {
-		if !strings.Contains(path, "?") {
-			pathAndParams += "?"
+		q := url.Values{}
+		for key, value := range params {
+			q.Add(key, value)
 		}
-		for k, v := range params {
-			pathAndParams += fmt.Sprintf("%s=%s&", k, url.QueryEscape(v))
-		}
+
+		pathAndParams = q.Encode()
 	}
 	resp, err := c.httpGet(pathAndParams)
 	if err != nil {
