@@ -272,9 +272,7 @@ func (c *Client) Get(v interface{}, path string, params map[string]string) error
 			q.Add(key, value)
 		}
 
-		pathAndParams = q.Encode()
-
-		fmt.Printf("PAAAAATH AND PARAAAAMS: %s", pathAndParams)
+		pathAndParams += fmt.Sprintf("?%s", q.Encode())
 	}
 	resp, err := c.httpGet(pathAndParams)
 	if err != nil {
